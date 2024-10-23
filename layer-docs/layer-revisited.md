@@ -1,19 +1,29 @@
 The layers are thin wrappers to the core.
 
-# Agents
+# Agents (rates)
 * Oauth agents (scoped to path(s) and namespaces). Agents are logged in as the ns doing stuff.
-  * thin message/or communication layer for agents that send out mail and messages (defines types) 
+* Every user here in this layer goes through an agent, which handles the token to the base layer
+* So all the rest here depends on at least one agent working
+* But other agents can be used to glue outside services to here
+* Agents can be restricted to do a subset of possible things (per api call on this layer or base layer, or set of those)
+* Agents have rates
 
-# Rates (depends on agents)
+
+
+# Agreements (agents)
+two or more people vote to do something which results in a transfer
+* A successful agreement can be some of the total votes or all needed
+* success moves predetermined elements between sets.
+* Agreements can be for repeating movements of elements between groups on a time schedule
+  * or can be only for one time, or N times 
+* Repeat agreements can be cancelled at any time for yet to be done repeats
+
+
+# Rates (agreements,agents)
 * Set core limits, set limits on this api. set limits for specific things.
+* Rates are set by agreements
 
-# Community (depends on agents)
-* Agreements: two or more people vote to do something, can have different thresholds, success unlocks or allows something.
-Agreements can be cancelled affecting stuff, or can be one shot things.
-* Organizations: ownership is shares, the % of shares each user has weighs in the agreements, 
-these can make certain sorts of actions now and in future possible, by one or more owners (decided). Very adjustable.  
-
-# Business (depends on community)
+# Business (agreements,agents)
 * Transactions: swap ownership/usage of sets containing elements
 * Contracts: Repeating or time sensitive transactions
 * Element pools: transactions can trade rights to make elements and under terms (including locations, times, amounts)
@@ -25,7 +35,7 @@ these can make certain sorts of actions now and in future possible, by one or mo
 * using https only, and other safeguards than those in the core, for server to server communication
 * Servers using this will communicate with other servers using this layer
 
-# Groups
+# Groups (agents)
 * Groups have content types, these all inherit from the group content type. 
   * There can be unlimited sorts of content. 
   * Content can be public, protected, private
@@ -53,9 +63,19 @@ these can make certain sorts of actions now and in future possible, by one or mo
 * Groups can define projects and provide structure
 * Groups can be nested, that is there can be parent and child groups, 
   * the parent can moderate the children but the children only have protected access to the parent content and actions
-  * user management on this layer is a group, all other groups made on this server is a subgroup to this one
+  * user management on this server/layer is a group, all other groups made on this server is a subgroup to this one
 
-# Remote caching and verification
+
+# Organizations (groups,agreements)
+Optional voting to allow the group ns to be used on api operations: once or repeating, specific calls or using template from base types and attributes
+  * Members get shares, shares can be unequally divided, each member gets one share at least
+  * Shares can be generated in any number by the admins and given how they please, owner has no extra privs here
+  * Actions need > 50% shares
+  * Actions can have a set time limit, and/or time range
+  * Organization acts like any user, including for agents or any of this api for the individual user
+  * Delagation for one or more users to do a range of actions, using the org token
+
+# Remote caching and verification (groups)
 The core allows any remote to be called
 * This can be a proxy server for some or all remotes
   * Moderator can decide if using proxy 
